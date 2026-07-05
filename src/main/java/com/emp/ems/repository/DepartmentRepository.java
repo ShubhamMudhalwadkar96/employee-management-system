@@ -1,6 +1,6 @@
-package com.emp.demo.repository;
+package com.emp.ems.repository;
 
-import com.emp.demo.entity.Department;
+import com.emp.ems.entity.Department;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface DepartmentRepository extends JpaRepository<Department, Long> {

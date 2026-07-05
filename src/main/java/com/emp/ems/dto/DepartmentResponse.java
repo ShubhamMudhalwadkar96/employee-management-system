@@ -1,4 +1,4 @@
-package com.emp.demo.dto;
+package com.emp.ems.dto;
 
 public record DepartmentResponse(Long id, String name, String description) {
 }

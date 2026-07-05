@@ -1,4 +1,4 @@
-package com.emp.demo;
+package com.emp.ems;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

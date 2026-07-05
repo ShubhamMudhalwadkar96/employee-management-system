@@ -1,4 +1,4 @@
-package com.emp.demo.dto;
+package com.emp.ems.dto;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;

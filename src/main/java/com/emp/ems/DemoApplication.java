@@ -1,4 +1,4 @@
-package com.emp.demo;
+package com.emp.ems;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
