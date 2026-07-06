@@ -3,6 +3,8 @@ package com.emp.ems.service.impl;
 import com.emp.ems.dto.DepartmentRequest;
 import com.emp.ems.dto.DepartmentResponse;
 import com.emp.ems.entity.Department;
+import com.emp.ems.exception.DepartmentAlreadyExistsException;
+import com.emp.ems.exception.DepartmentNotFoundException;
 import com.emp.ems.mapper.DepartmentMapper;
 import com.emp.ems.repository.DepartmentRepository;
 import com.emp.ems.service.DepartmentService;
@@ -22,7 +24,7 @@ public class DepartmentServiceImpl implements DepartmentService {
     @Override
     public DepartmentResponse createDepartment(DepartmentRequest departmentRequest) {
         if (departmentRepository.existsByName(departmentRequest.name())) {
-            throw new IllegalArgumentException(
+            throw new DepartmentAlreadyExistsException(
                     "Department already exists with name: " + departmentRequest.name());
         }
         Department department = departmentMapper.toEntity(departmentRequest);
@@ -36,7 +38,7 @@ public class DepartmentServiceImpl implements DepartmentService {
     public DepartmentResponse getDepartment(Long id) {
         Department department = departmentRepository.findById(id)
                 .orElseThrow(() ->
-                        new EntityNotFoundException("Department not found"));
+                        new DepartmentNotFoundException(id));
 
         return departmentMapper.toResponse(department);
     }
