@@ -1,10 +1,14 @@
 package com.emp.ems.controller;
 
+import com.emp.ems.common.dto.PageResponse;
 import com.emp.ems.dto.DepartmentRequest;
 import com.emp.ems.dto.DepartmentResponse;
 import com.emp.ems.service.DepartmentService;
+import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,13 +27,14 @@ public class DepartmentController {
         return departmentService.createDepartment(departmentRequest);
     }
 
+    @Operation(summary = "Get all departments with pagination and sorting")
     @GetMapping
-    public List<DepartmentResponse> getAllDepartments() {
-        return departmentService.getAllDepartments();
+    public PageResponse<DepartmentResponse> getAllDepartments(Pageable pageable) {
+        return departmentService.getAllDepartments(pageable);
     }
 
     @GetMapping("/{id}")
-    public DepartmentResponse getDepartmentById(@PathVariable Long id) {
+    public DepartmentResponse getDepartment(@PathVariable Long id) {
         return departmentService.getDepartment(id);
     }
 
