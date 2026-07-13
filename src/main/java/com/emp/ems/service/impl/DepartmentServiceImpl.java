@@ -1,5 +1,7 @@
 package com.emp.ems.service.impl;
 
+import com.emp.ems.common.dto.PageResponse;
+import com.emp.ems.common.util.PageUtils;
 import com.emp.ems.dto.DepartmentRequest;
 import com.emp.ems.dto.DepartmentResponse;
 import com.emp.ems.entity.Department;
@@ -10,7 +12,10 @@ import com.emp.ems.repository.DepartmentRepository;
 import com.emp.ems.service.DepartmentService;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -44,11 +49,14 @@ public class DepartmentServiceImpl implements DepartmentService {
     }
 
     @Override
-    public List<DepartmentResponse> getAllDepartments() {
-        return departmentRepository.findAll()
-                .stream()
-                .map(departmentMapper::toResponse)
-                .toList();
+    @Transactional(readOnly = true)
+    public PageResponse<DepartmentResponse> getAllDepartments(Pageable pageable) {
+
+        Page<DepartmentResponse> page = departmentRepository
+                .findAll(pageable)
+                .map(departmentMapper::toResponse);
+
+        return PageUtils.convertToPageResponse(page);
     }
 
     @Override
