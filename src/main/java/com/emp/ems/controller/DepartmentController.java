@@ -3,6 +3,7 @@ package com.emp.ems.controller;
 import com.emp.ems.common.dto.PageResponse;
 import com.emp.ems.dto.DepartmentRequest;
 import com.emp.ems.dto.DepartmentResponse;
+import com.emp.ems.dto.DepartmentSearchRequest;
 import com.emp.ems.service.DepartmentService;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
@@ -39,7 +40,8 @@ public class DepartmentController {
     }
 
     @PutMapping("/{id}")
-    public DepartmentResponse updateDepartment(@PathVariable Long id, @Valid @RequestBody DepartmentRequest departmentRequest) {
+    public DepartmentResponse updateDepartment(@PathVariable Long id,
+                                               @Valid @RequestBody DepartmentRequest departmentRequest) {
         return departmentService.updateDepartment(id, departmentRequest);
     }
 
@@ -47,5 +49,11 @@ public class DepartmentController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteDepartment(@PathVariable Long id) {
         departmentService.deleteDepartment(id);
+    }
+
+    @PostMapping("/search")
+    public PageResponse<DepartmentResponse> searchDepartments(@RequestBody DepartmentSearchRequest departmentSearchRequest,
+                                                              Pageable pageable) {
+        return departmentService.searchDepartments(departmentSearchRequest, pageable);
     }
 }

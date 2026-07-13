@@ -4,12 +4,14 @@ import com.emp.ems.common.dto.PageResponse;
 import com.emp.ems.common.util.PageUtils;
 import com.emp.ems.dto.DepartmentRequest;
 import com.emp.ems.dto.DepartmentResponse;
+import com.emp.ems.dto.DepartmentSearchRequest;
 import com.emp.ems.entity.Department;
 import com.emp.ems.exception.DepartmentAlreadyExistsException;
 import com.emp.ems.exception.DepartmentNotFoundException;
 import com.emp.ems.mapper.DepartmentMapper;
 import com.emp.ems.repository.DepartmentRepository;
 import com.emp.ems.service.DepartmentService;
+import com.emp.ems.specification.DepartmentSpecification;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -56,7 +58,7 @@ public class DepartmentServiceImpl implements DepartmentService {
                 .findAll(pageable)
                 .map(departmentMapper::toResponse);
 
-        return PageUtils.convertToPageResponse(page);
+        return PageUtils.toPageResponse(page);
     }
 
     @Override
@@ -81,5 +83,15 @@ public class DepartmentServiceImpl implements DepartmentService {
         }
 
         departmentRepository.deleteById(id);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public PageResponse<DepartmentResponse> searchDepartments(DepartmentSearchRequest departmentSearchRequest,
+                                                              Pageable pageable) {
+        Page<DepartmentResponse> page = departmentRepository
+                .findAll(DepartmentSpecification.search(departmentSearchRequest), pageable)
+                .map(departmentMapper::toResponse);
+        return PageUtils.toPageResponse(page);
     }
 }
