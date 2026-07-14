@@ -90,6 +90,11 @@ public class DepartmentServiceImpl implements DepartmentService {
                     return new DepartmentNotFoundException(id);
                 });
 
+        if (departmentRepository.existsByNameAndIdNot(departmentRequest.name(), id)) {
+            log.warn("Department already exists with name: {}", departmentRequest.name());
+            throw new DepartmentAlreadyExistsException(departmentRequest.name());
+        }
+
         departmentMapper.updateEntity(departmentRequest, department);
 
         Department updatedDepartment = departmentRepository.save(department);
