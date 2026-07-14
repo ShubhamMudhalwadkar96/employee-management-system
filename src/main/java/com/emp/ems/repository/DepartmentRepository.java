@@ -11,4 +11,6 @@ public interface DepartmentRepository
         JpaSpecificationExecutor<Department> {
 
     boolean existsByName(String name);
+
+    boolean existsByNameAndIdNot(String name, Long id);
 }
